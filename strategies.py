@@ -37,7 +37,7 @@ class RSICloseStrategy(BaseStrategy):
         # Ręczne obliczanie RSI
         delta = df['Close'].diff()
         
-        # Oddzielenie wzrostów (gain) od spadków (loss)
+        # Oddzielenie wzrostów od spadków
         gain = delta.where(delta > 0, 0.0)
         loss = -delta.where(delta < 0, 0.0)
         

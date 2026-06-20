@@ -11,15 +11,27 @@ class Position:
         
     def update_pnl(self, current_price: float):
         """Aktualizuje pływający zysk/stratę na podstawie aktualnej ceny"""
-        if self.side == 'BUY':
-            self.unrealized_pnl = (current_price - self.entry_price) * self.size
+        price_diff = current_price - self.entry_price if self.side == 'BUY' else self.entry_price - current_price
+        
+        if self.asset.endswith('USD=X') or self.asset.endswith('USD'):
+            # Pary typu EURUSD=X: Zysk rodzi się od razu w dolarach (różnica cen * rozmiar w EUR)
+            self.unrealized_pnl = price_diff * self.size
         else:
-            self.unrealized_pnl = (self.entry_price - current_price) * self.size
+            # Pary typu CHF=X: Zysk rodzi się w walucie kwotowanej (np. w jenach), 
+            # więc dzielimy przez AKTUALNY kurs, aby przeliczyć go na nasze dolary na koncie.
+            self.unrealized_pnl = (price_diff / current_price) * self.size
 
     @property
     def required_margin(self) -> float:
         """Oblicza zamrożony kapitał pod pozycję na podstawie dźwigni"""
-        return (self.entry_price * self.size) / self.leverage
+        if self.asset.endswith('USD=X') or self.asset.endswith('USD'):
+            # EURUSD=X: Rozmiar jest w EUR, więc mnożymy przez cenę wejścia, aby poznać wartość w USD
+            position_value_usd = self.entry_price * self.size
+        else:
+            # JPY=X, CHF=X: Ponieważ USD jest na początku (USD/JPY), rozmiar pozycji od razu podany jest w USD!
+            position_value_usd = self.size
+            
+        return position_value_usd / self.leverage
 
 
 class TradeLog:

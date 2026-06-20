@@ -8,7 +8,7 @@ def get_real_forex_data(ticker: str = "EURUSD=X", period: str = "1mo", interval:
     - period="1mo", interval="1h"
     - period="1y", interval="1d"
     """
-    print(f"Pobieranie danych dla {ticker} z Yahoo Finance...")
+    print(f'Pobieranie danych dla {ticker} z Yahoo Finance...')
     
     # Pobieranie danych
     df = yf.download(tickers=ticker, period=period, interval=interval, progress=False)

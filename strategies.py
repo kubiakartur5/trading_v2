@@ -14,7 +14,7 @@ class SMACrossoverStrategy(BaseStrategy):
     def generate_signals(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.copy()
         
-        # Ręczne obliczanie średnich SMA
+        # Obliczanie średnich SMA
         df['sma_short'] = df['Close'].rolling(window=self.short_window).mean()
         df['sma_long'] = df['Close'].rolling(window=self.long_window).mean()
         
@@ -34,7 +34,7 @@ class RSICloseStrategy(BaseStrategy):
     def generate_signals(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.copy()
         
-        # Ręczne obliczanie RSI
+        # Obliczanie RSI
         delta = df['Close'].diff()
         
         # Oddzielenie wzrostów od spadków
@@ -66,7 +66,7 @@ class BollingerBandsStrategy(BaseStrategy):
     def generate_signals(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.copy()
         
-        # Ręczne obliczanie Wstęg Bollingera
+        # Obliczanie Wstęg Bollingera
         df['sma'] = df['Close'].rolling(window=self.window).mean()
         df['std'] = df['Close'].rolling(window=self.window).std()
         

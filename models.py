@@ -5,7 +5,7 @@ class Position:
         self.asset = asset
         self.side = side  # 'BUY' (Long) lub 'SELL' (Short)
         self.entry_price = entry_price
-        self.size = size  # Wielkość pozycji w jednostkach (np. 100 000 = 1 lot)
+        self.size = size  # Wielkość pozycji w jednostkach 100 000 = 1 lot
         self.leverage = leverage
         self.unrealized_pnl = 0.0
         
@@ -14,11 +14,11 @@ class Position:
         price_diff = current_price - self.entry_price if self.side == 'BUY' else self.entry_price - current_price
         
         if self.asset.endswith('USD=X') or self.asset.endswith('USD'):
-            # Pary typu EURUSD=X: Zysk rodzi się od razu w dolarach (różnica cen * rozmiar w EUR)
+            # Pary typu EURUSD=X: Zysk mamy od razu w dolarach (różnica cen * rozmiar w EUR)
             self.unrealized_pnl = price_diff * self.size
         else:
-            # Pary typu CHF=X: Zysk rodzi się w walucie kwotowanej (np. w jenach), 
-            # więc dzielimy przez AKTUALNY kurs, aby przeliczyć go na nasze dolary na koncie.
+            # Pary typu CHF=X: Zysk mamy w walucie kwotowanej (np. w jenach), 
+            # więc dzielimy przez aktualny kurs, aby przeliczyć go na dolary na koncie.
             self.unrealized_pnl = (price_diff / current_price) * self.size
 
     @property
@@ -28,7 +28,7 @@ class Position:
             # EURUSD=X: Rozmiar jest w EUR, więc mnożymy przez cenę wejścia, aby poznać wartość w USD
             position_value_usd = self.entry_price * self.size
         else:
-            # JPY=X, CHF=X: Ponieważ USD jest na początku (USD/JPY), rozmiar pozycji od razu podany jest w USD!
+            # JPY=X, CHF=X: Ponieważ USD jest na początku (USD/JPY), rozmiar pozycji od razu podany jest w USD
             position_value_usd = self.size
             
         return position_value_usd / self.leverage
@@ -51,7 +51,7 @@ class Wallet:
     def __init__(self, initial_balance: float, leverage: float = 30.0, stop_out_level: float = 50.0):
         self.balance = initial_balance
         self.leverage = leverage
-        self.stop_out_level = stop_out_level  # Wartość procentowa (np. 50%)
+        self.stop_out_level = stop_out_level  # Wartość procentowa 
         self.positions: List[Position] = []
         
     @property

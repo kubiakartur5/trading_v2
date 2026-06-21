@@ -235,7 +235,7 @@ class BacktesterGUI(QMainWindow):
         """Generuje ulepszony wykres świecowy bez luk i z możliwością zoomu"""
         self.ax_candles.clear()
 
-        # ciemny motyw dla wykresu świecowego
+        # Ciemny motyw dla wykresu świecowego
         dark_bg = '#131722'      
         grid_color = '#2a2e39'   
         
@@ -261,7 +261,7 @@ class BacktesterGUI(QMainWindow):
         self.ax_candles.bar(up.index, up['High'] - up['Low'], width=0.1, bottom=up['Low'], color=color_up)
         self.ax_candles.bar(down.index, down['High'] - down['Low'], width=0.1, bottom=down['Low'], color=color_down)
 
-        # Rysowanie korpusów - zmieniliśmy ramkę (edgecolor) na ciemniejszą, pasującą do tła
+        # Rysowanie korpusów - zmieniliśmy ramkę  na ciemniejszą
         self.ax_candles.bar(up.index, up['Close'] - up['Open'], width=0.7, bottom=up['Open'], 
                             color=color_up, edgecolor='#1e534f', linewidth=0.5)
         self.ax_candles.bar(down.index, down['Open'] - down['Close'], width=0.7, bottom=down['Close'], 
@@ -271,7 +271,7 @@ class BacktesterGUI(QMainWindow):
         step = max(1, len(df) // 8)
         self.ax_candles.set_xticks(df.index[::step])
         
-        # STYLIZACJA OSI I NAPISÓW 
+        # Stylizacja osi i napisów
         self.ax_candles.set_xticklabels(df['Date'].iloc[::step], rotation=15, fontsize=9, color='white')
         self.ax_candles.tick_params(colors='white', which='both') # Liczby na osi Y też będą białe
 
